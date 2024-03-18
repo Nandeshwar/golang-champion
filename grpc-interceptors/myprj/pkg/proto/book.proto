@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "./pkg/proto";
+
+import "google/api/annotations.proto";
+
+service Book {
+	rpc GetBookInfo(GetBookInfoReq) returns (GetBookInfoResponse){
+		option(google.api.http) = {
+			get: "/api/v1/bookInfo"
+		};
+	}
+	
+	rpc GetBookInfoBidirectional(stream GetBookInfoReq) returns(stream GetBookInfoResponse);
+}
+
+message GetBookInfoReq {
+	string name = 1;
+}
+
+message GetBookInfoResponse {
+	string name = 1;
+	string auther = 2;
+	string publisher = 3;
+}
