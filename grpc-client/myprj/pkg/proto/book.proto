@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "./pkg/proto";
+
+import "google/api/annotations.proto";
+
+service Login {
+	rpc token(GetTokenReq) returns (GetTokenResponse);
+}
+
+service Book {
+	rpc GetBookInfo(GetBookInfoReq) returns (GetBookInfoResponse){
+		option(google.api.http) = {
+			get: "/api/v1/bookInfo"
+		};
+	}
+	
+	rpc GetBookInfoBidirectional(stream GetBookInfoReq) returns(stream GetBookInfoResponse);
+}
+
+message GetTokenReq {
+	string username = 1;
+	string password = 2;
+}
+
+message GetTokenResponse {
+	string token = 1;
+}
+
+message GetBookInfoReq {
+	string name = 1;
+}
+
+message GetBookInfoResponse {
+	string name = 1;
+	string auther = 2;
+	string publisher = 3;
+}
